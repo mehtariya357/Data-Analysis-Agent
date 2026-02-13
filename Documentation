@@ -1,0 +1,157 @@
+# 📊 Data Analysis Agent — Documentation
+
+## 📌 Project Overview
+Data Analysis Agent is a simple web-based application that allows users to upload CSV files and instantly analyze data through:
+
+- 📋 Table preview
+- 📊 Score & statistics
+- 📈 Graph visualization
+
+The project is built using basic web technologies so beginners can easily understand and run it.
+
+---
+
+## 🎯 Objectives
+
+- Build a beginner-friendly data analysis tool.
+- Allow CSV file upload directly from browser.
+- Display data in table format automatically.
+- Calculate important statistics (score).
+- Visualize data using charts.
+- Provide a clean dashboard-style UI.
+
+---
+
+## 🛠️ Technologies Used
+
+- **HTML** — Structure
+- **CSS** — Styling & layout
+- **JavaScript** — Logic and CSV processing
+- **Chart.js** — Graph visualization
+- **VS Code** — Development environment
+
+---
+
+## ⚙️ System Requirements
+
+### Hardware
+- Any modern computer
+- Minimum 2GB RAM
+
+### Software
+- VS Code (recommended)
+- Browser (Chrome, Edge, Firefox)
+- Live Server extension (optional)
+
+---
+
+## 🧩 Project Workflow
+
+1. User uploads a CSV file.
+2. JavaScript reads the file using FileReader API.
+3. CSV data is parsed into rows and columns.
+4. Data is displayed in table format.
+5. Statistics are calculated automatically.
+6. Graph is generated using Chart.js.
+7. Results appear on the dashboard.
+
+---
+
+## 🧱 Project Modules
+
+### 1️⃣ CSV Upload Module
+- Select and upload CSV file.
+- Reads file directly in browser.
+
+### 2️⃣ Data Parsing Module
+- Splits CSV rows and columns.
+- Cleans extra spaces.
+- Converts numeric values properly.
+
+### 3️⃣ Table Display Module
+- Generates table dynamically.
+- Displays all records automatically.
+
+### 4️⃣ Score & Statistics Module
+Calculates:
+- Total records
+- Average salary (score)
+- Highest salary
+
+### 5️⃣ Graph Visualization Module
+- Generates bar chart.
+- Shows data levels clearly.
+- Updates when new file is uploaded.
+
+---
+
+## 📊 Statistics Generated
+
+- Total number of records
+- Average value (Score)
+- Maximum value
+
+---
+
+
+## 🧩 Challenges & Fixes
+
+| Problem | Solution |
+|---------|----------|
+| Graph levels showing 0–1 | Converted CSV values to numbers |
+| Axis not visible in dark mode | Changed graph label colors |
+| Hidden spaces in CSV | Used trim() while parsing |
+| Layout issues | Improved responsive CSS |
+
+---
+
+## ⭐ Advantages
+
+- Easy to use
+- No backend required
+- Fast visualization
+- Beginner-friendly code
+- Runs on any browser
+
+---
+
+## ⚠️ Limitations
+
+- Supports only CSV files
+- No database storage
+- Limited chart options
+- No authentication system
+
+---
+
+## 🚀 Future Improvements
+
+- Pie chart and line chart support
+- Drag & drop CSV upload
+- Search and filtering
+- Export report as PDF
+- AI-generated insights
+- Advanced dashboard UI
+
+---
+
+## 🎓 Learning Outcomes
+
+This project helps in learning:
+
+- File handling in JavaScript
+- CSV parsing logic
+- Dynamic table generation
+- Chart visualization
+- Basic dashboard design
+
+---
+
+## 👩‍💻 Author
+
+**Riya Mehta**  
+
+
+---
+
+

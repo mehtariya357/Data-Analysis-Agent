@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Analysis Agent</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+}
+
+header { padding: 30px; }
+
+.upload {
+    background:#1e293b;
+    width:80%;
+    margin:20px auto;
+    padding:20px;
+    border-radius:12px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+table{
+    margin:20px auto;
+    width:90%;
+    border-collapse: collapse;
+    background:#1e293b;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:10px;
+}
+
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.box{
+    background:#1e293b;
+    padding:15px;
+    border-radius:10px;
+    width:200px;
+}
+
+canvas{
+    background:#1e293b;
+    margin:20px auto;
+    border-radius:12px;
+    width:90% !important;
+    max-width:900px;
+    height:400px !important;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📊 Data Analysis Agent</h1>
+    <p>Upload CSV → Table + Score + Graph</p>
+</header>
+
+<div class="upload">
+    <input type="file" id="csvFile" accept=".csv">
+    <br><br>
+    <button onclick="loadCSV()">Analyze Data</button>
+</div>
+
+<div class="stats" id="stats"></div>
+<div id="tableContainer"></div>
+
+<canvas id="myChart"></canvas>
+
+<script>
+let chart;
+
+// ---------- LOAD CSV ----------
+function loadCSV() {
+    const file = document.getElementById("csvFile").files[0];
+    if (!file) {
+        alert("Please select CSV file");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+        const text = e.target.result;
+
+        // IMPORTANT FIX ✅
+        const rows = text
+            .trim()
+            .split("\n")
+            .map(r => r.split(",").map(c => c.trim())); // remove spaces & \r
+
+        createTable(rows);
+        calculateStats(rows);
+        createGraph(rows);
+    };
+
+    reader.readAsText(file);
+}
+
+// ---------- TABLE ----------
+function createTable(rows){
+    let html = "<table><tr>";
+
+    rows[0].forEach(h => html += `<th>${h}</th>`);
+    html += "</tr>";
+
+    for(let i=1;i<rows.length;i++){
+        html += "<tr>";
+        rows[i].forEach(c => html += `<td>${c}</td>`);
+        html += "</tr>";
+    }
+
+    html += "</table>";
+    document.getElementById("tableContainer").innerHTML = html;
+}
+
+// ---------- STATS ----------
+function calculateStats(rows){
+    const headers = rows[0];
+    const salaryIndex = headers.indexOf("Salary");
+
+    if(salaryIndex === -1) return;
+
+    let total = 0;
+    let max = 0;
+
+    for(let i=1;i<rows.length;i++){
+        const salary = Number(rows[i][salaryIndex]);
+
+        if(!isNaN(salary)){
+            total += salary;
+            if(salary > max) max = salary;
+        }
+    }
+
+    const avg = Math.round(total/(rows.length-1));
+
+    document.getElementById("stats").innerHTML = `
+        <div class="box"><h3>${rows.length-1}</h3><p>Total Records</p></div>
+        <div class="box"><h3>${avg}</h3><p>Average Salary</p></div>
+        <div class="box"><h3>${max}</h3><p>Highest Salary</p></div>
+    `;
+}
+
+// ---------- GRAPH ----------
+function createGraph(rows){
+    const headers = rows[0];
+    const nameIndex = headers.indexOf("Name");
+    const salaryIndex = headers.indexOf("Salary");
+
+    let labels = [];
+    let data = [];
+
+    for(let i=1;i<rows.length;i++){
+        labels.push(rows[i][nameIndex]);
+        data.push(Number(rows[i][salaryIndex])); // FIXED numbers
+    }
+
+    if(chart) chart.destroy();
+
+    chart = new Chart(document.getElementById("myChart"), {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Salary Graph",
+                data: data,
+                backgroundColor: "#3b82f6"
+            }]
+        },
+        options: {
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{ labels:{ color:"white"}}
+            },
+            scales:{
+                x:{
+                    ticks:{ color:"white" },
+                    grid:{ color:"#334155" }
+                },
+                y:{
+                    beginAtZero:true,
+                    ticks:{ color:"white" },
+                    grid:{ color:"#334155" }
+                }
+            }
+        }
+    });
+}
+</script>
+
+</body>
+</html>
